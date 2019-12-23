@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package abstractdatastructure;
+
+/**
+ *
+ * @author Student 8
+ */
+public class Queue {
+    private int [] queue;
+    private int numberOfElements=0;
+    
+    public Queue(int maxSize){
+         this.queue = new int [maxSize];
+    }
+    public boolean isFull(){
+       if((queue.length) ==numberOfElements){ 
+       return true;
+    }else{
+    return false;
+        }
+    }
+    public boolean isEmpty(){
+        if(numberOfElements==0){
+            return true;
+        }else
+        return false;
+    }
+    public boolean add(int value){
+        if(isFull()==false){
+            queue[numberOfElements] = value;
+            numberOfElements++;
+            return true;
+        }
+        return false;
+    }
+    public int removeElement(){
+        if(isEmpty()==false){
+            int temp = queue[0];
+            for(int i =0; i<numberOfElements-1;i++){
+             queue[i]=queue[i+1];
+            }
+            return temp;
+        }
+        return -1;
+    }
+}
