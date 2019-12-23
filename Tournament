@@ -1,0 +1,65 @@
+
+import java.io.Serializable;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author User
+ */
+public class Tournament implements Serializable{
+    private int [] scores = new int [14] ; // array storing scores of players for all their games - the scores are number of sets won 
+    private Player [] tp = new Player[15] ; // tournamnt which will hold all the players going to next rounds
+    public Tournament(League l){
+       Player [] array = new Player [8]; //8 players from places 1 to 9 who will play in the tournament
+       
+       for (int i=1;i<9;i++){
+           array[i-1] = l.getPlayer(i);
+       }
+           int [] randomIndex = new int [8]; // array storing mixed indices which will alow for organization of games
+                            randomIndex[0] = (int) (Math.random() *8+1);
+                           
+                          for(int i=1;i<8;i++){
+                               int random =   (int) (Math.random() *8+1);
+                               int k =0;
+                               boolean b = true;
+                               while(k!=8){
+                                   if(randomIndex[k]==random){
+                                       random = (int) (Math.random() *8+1);
+                                       k=0;
+                                   }else{
+                                     k++;
+                                   }     
+                               }
+                               randomIndex[i]=random;
+                          }
+        int k = 0;
+        while(k<8) {
+            tp[k] = array [randomIndex[k]];
+            k++;
+        }
+            while (k<15){
+                tp[k]=null;
+            }
+        
+        for (int a= 0; a<14;a++){
+            scores [a] = -1;
+        }
+    }
+    public Player getPlayer(int i){
+        return tp[i];
+}
+    public int getScore (int i){
+        return scores[i];
+    }
+    public void setScore (int i, int score){
+        scores[i] = score;
+    }
+    public void setPlayer (int i, Player p){
+        tp[i] = p;
+    }
+}
