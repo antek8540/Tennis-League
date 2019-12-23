@@ -1,0 +1,114 @@
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author User
+ */
+public class ReadWriteFile {
+    public static void writeFile(Player arr[], String fileName ) throws IOException{
+        BufferedWriter bw = null;
+         String  name, surname;
+        StringTokenizer st = null;
+        bw = new BufferedWriter(new FileWriter(fileName));
+       // System.out.println(arr.length);
+         //bw.write(String.valueOf(arr.length));
+         //bw.newLine();
+        for (int i = 0; i<arr.length;i++) {
+            bw.write(arr[i].getName()+",");
+            bw.write(arr[i].getSurname()+",");
+            bw.newLine();
+            
+        }
+       bw.close();
+    }
+      public static Player[] readFile(String fileName) throws IOException {
+        Player[] array = null;
+        String line, name, surname;
+        int i=0;
+        StringTokenizer st = null;
+        BufferedReader br = null;
+        System.out.println(fileName);
+        //opens the file to read
+        try {
+            br = new BufferedReader(new FileReader(fileName));
+        }
+        catch(FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(null,"There is NOT such a file!");
+        }
+        try {
+         //   if((line=br.readLine())==null){ // checks if the file is empty 
+          //      JOptionPane.showMessageDialog(null,"Data File is empty!");
+            
+         //   }
+         //   else { // reads the file if not empty
+                
+                array = new Player[10];
+           // }
+            
+            while((line=br.readLine())!=null) { // reads file untill the last line
+                
+                st= new StringTokenizer(line, ",");
+                name = st.nextToken();
+                surname = st.nextToken();
+                             
+                
+                array[i++] = new Player(name, surname) {};
+            }
+        }
+        catch (NullPointerException npe) {               
+            JOptionPane.showMessageDialog(null,"NullPointerException!!!");
+        }
+                
+        return array;
+    }
+      public static void saveTournament(Tournament t) throws IOException{
+           ObjectOutputStream os = new ObjectOutputStream(
+                new BufferedOutputStream(new FileOutputStream("Tournament.aaa")));
+      
+        
+    //  ObjectInputStream is=null;
+        try {
+            os.writeObject(t);
+          
+        }
+        catch(NullPointerException e) {
+            System.out.println("NullPointerException: "+e.getMessage());
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("FileNotFoundException: "+e.getMessage());
+        }
+        catch(EOFException e) {
+            System.out.println("EOFException: "+e.getMessage());
+        }
+
+      }
+      public static Tournament LoadTournaament(String fileName) throws IOException, ClassNotFoundException {
+          ObjectInputStream is = null;
+          Tournament t;
+          FileInputStream fs = new FileInputStream ("Tournament.aaa");
+          is = new ObjectInputStream (new BufferedInputStream(fs));
+          t = (Tournament)is.readObject();
+          return t;
+      }
+}
