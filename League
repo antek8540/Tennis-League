@@ -1,0 +1,46 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author User
+ */
+public class League {
+    private Player [] players= new Player [10];
+    
+    public League (){
+        
+    }
+    public League (Player p){
+        this.players[0] = p;
+    }
+    public League (String name, String surname){
+        this.players[0] = new Player(name, surname);
+    }
+    public League(Player players []){
+        this.players = players;
+    }
+    public void addPlayer(Player player, int index){
+        this.players[index]=player;
+    }
+    public Player removePlayer( int index){
+        Player p = new Player(players[index].getName(), players[index].getSurname());
+        this.players[index] = null;
+        return p;
+    }
+    public Player getPlayer(int index){
+        return players[index];
+    }
+    public String toString(){
+        String s = "";
+        for (int i =0; i<10;i++){
+            s = s+ players[i] ;
+            //System.out.println(s);
+        } 
+        return s;
+    }
+}
