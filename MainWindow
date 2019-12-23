@@ -1,0 +1,142 @@
+/**
+ *
+ * @author User
+ */
+public class MainWindow  implements ActionListener {
+    JFrame mainWindow = new JFrame("InputLeagues");
+    JButton inputLeagues = new JButton("Input Leagues");
+    JFrame noLeagues = new JFrame(); // JFrame cntaining Jpannels, JtabbedPanes and Jtable in which user inputs player
+    JTabbedPane leagues = new JTabbedPane();
+    JButton saveLeague = new JButton("");
+    public static int numberOfLeagues;
+     JTable [] jt;
+
+ // private javax.swing.JTable jt;
+    public MainWindow(){
+       
+        mainWindow.setVisible(true);
+        mainWindow.add(inputLeagues);
+        mainWindow.setLocationRelativeTo(null);
+        mainWindow.setSize(300, 300);
+       // mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        
+           SecondLounchWindow s = new SecondLounchWindow(numberOfLeagues);
+        
+            
+    }
+});
+        
+        inputLeagues.addActionListener(this);
+        inputLeagues.setSize(10,10);
+        Font font = new Font("Arial",Font.BOLD,22);
+        inputLeagues.setFont(font);
+        noLeagues.setLocationRelativeTo(null);
+        
+        
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        JButton jb = (JButton)ae.getSource();
+        if(ae.getActionCommand().equals("Input Leagues")){
+       numberOfLeagues = Integer.parseInt(JOptionPane.showInputDialog("How many Leagues do you want to add?"));
+      //System.out.println(x)
+      int y = JOptionPane.showConfirmDialog(null, "Do you want to add" + " " + numberOfLeagues + " "+"leagues", "", 0);
+      if(y == 0){
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle rect = ge.getMaximumWindowBounds();
+        JComponent jcomp = (JComponent)noLeagues.getContentPane();
+       jcomp.setLayout(new GridLayout(0,  1));;
+        
+        noLeagues.setSize(600, 300);
+          
+         noLeagues.setVisible(true); //this is JFrame
+         noLeagues.add(leagues);
+         JPanel[] Panels= new JPanel [numberOfLeagues];
+    //    JTable [] jt = new JTable [numberOfLeagues];
+                jt  = new JTable [numberOfLeagues];
+         int k =1;
+         for(int i=0;i<numberOfLeagues;i++){
+             Panels [i]=new JPanel(); //arr of JPannels created in order to create jTabs for proper no Of Leagues
+             leagues.addTab("League"+" "+k,Panels[i]);
+             JButton saveLeagues = new JButton("Save");
+             saveLeagues.addActionListener(this);
+              Panels [i].add(saveLeagues);
+              k++;
+             jt[i] = new javax.swing.JTable();
+           
+             Panels[i].add(jt[i]);
+              jt[i].setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Name", "Surname"
+            }
+        ));
+            // JTable jt = new JTable();
+           /*  jt = new javax.swing.JTable();
+             jt.setBackground(Color.yellow);
+             Panels [i].add(jt);
+              jt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Name", "Surname"
+            }
+        ));*/
+            
+         }
+         }
+      }
+      if(ae.getActionCommand().equals("Save")) {
+          int x = (leagues.getSelectedIndex()+1);
+         // System.out.println(leagues.getComponentCount()); // displays no. of jtabs
+       //  leagues.getTabComponentAt(x).getComponentAt(x, x); to coś tutaj 
+         System.out.println(x);
+            
+                
+                
+                    Player [] players= new Player [10];
+                    for (int w = 0; w<10;w++){
+                    //et comonent at - zczytaj jt z zakładki i następnie zrzutu go na jt i dopiero wtedy zczytaj, wtedy powinno być ok
+                        players[w] = new Player(""+jt[leagues.getSelectedIndex()].getValueAt(w, 0),""+jt[leagues.getSelectedIndex()].getValueAt(w, 1));
+                       //System.out.println(""+jt[i].getValueAt(k, 0)+" "+""+jt[i].getValueAt(k, 1));
+                }
+              try {
+                  ReadWriteFile.writeFile(players,"League"+x+".txt");
+              } catch (IOException ex) {
+                  Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+              }
+                     JOptionPane.showMessageDialog(null, "You have just saved League "+ x);
+            }
+                
+            
+           
+   }
+    public static int getNumberOfLeagues()
+    {
+        return numberOfLeagues;
+    }
+}
