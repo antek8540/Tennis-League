@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Student 2
+ */
+public class LeagueQueue {
+    private League [] lQueue; //queue of leagues
+    private int noElements = 0
+            
+            ;
+    
+    
+    public LeagueQueue(int maxSize){
+        this.lQueue = new League [maxSize];
+    }
+    public boolean isFull(){
+        if((lQueue.length) == noElements){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public boolean isEmpty(){
+        if(noElements==0){
+            return true;
+        }else
+            return false;
+    }
+    
+    public boolean add (League league){
+        if(isFull()==false){
+            lQueue[noElements] = league;
+            noElements++;
+            return true;
+        }
+        return false;
+    }
+    
+    public League getLeague(int leagueNumber){
+        if(isEmpty() == true){
+            return null;
+        }else
+            return lQueue[leagueNumber];
+    }
+}
